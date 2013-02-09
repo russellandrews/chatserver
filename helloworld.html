@@ -30,19 +30,33 @@ $(document).ready(function(){
 		$("#dialogbox").dialog();
 	});
 
+	$(function(){
+		$("#chat").hide();
+	});
+
+	
 	now.name = "Unknown";
 	now.group = "student";
 
+	//clicking submit button closes dialog and sets name and group
 	$("#submit-button").click(function(){
     now.name = ($("#name").val());
 		if ($("#mentor").is(':checked')){
 			now.group = "mentor"
-			alert($("#mentor").val());
 		}else{
 			now.group = "student"
 		}
 		$("#dialogbox").dialog("close");
+		$("#chat").show("fade", 1000);
 		return false;
+  });
+
+	//hitting enter key submits form
+	$("#dialogbox").keypress(function (e) {
+    if (e.which && e.which === 13) {
+      $("#submit-button").click();
+      return false;
+    }
   });
 
   $("#text-input").focus();
@@ -51,9 +65,17 @@ $(document).ready(function(){
 </head>
 
 <body>
-<div id="messages"></div>
-<input type="text" id="text-input">
-<input type="button" value="Send" id="send-button">
+
+<div id="chat">
+	<h1>This is a chat server.</h1>
+	<h2>Ask your questions here.</h2>
+	<div id="messages"></div>
+	<div id="questionbox">
+		<textarea type="text" id="text-input"></textarea><br>	
+		<input type="button" value="Send" id="send-button">
+	</div>
+</div>
+
 <div id="dialogbox" title="Mentor or Student?">
 	<form>
 		Your name: <input id="name" type="text" name="name"><br><br>
@@ -61,5 +83,6 @@ $(document).ready(function(){
 		<input id="submit-button" type="submit" value="Submit"> 
 	</form>
 </div>
+
 </body>
 </html>

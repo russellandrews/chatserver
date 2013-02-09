@@ -1,7 +1,51 @@
+body{
+	width: 600px;
+	margin: 0 auto;
+	background: #f5f5f5;
+	font-family: Helvetica, Arial;
+	color: #666666;
+	line-height: 1.5;
+}
+
+h1, h2{
+	line-height: 1;
+	text-shadow: 0px 1px 0px rgba(255,255,255,1.0);
+}
+
 .mentor{
 	color: #ff0000;
+	text-shadow: 0px 1px 0px rgba(255,255,255,1.0);
 }
 
 .student{
-	color: #0000FF;	
+	color: #aaaaaa;	
+	text-shadow: 0px 1px 0px rgba(255,255,255,1.0);
+}
+
+.ui-dialog{
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+#chat{
+	display: none;
+}
+
+#send-button{
+	float: right;
+}
+
+#text-input{
+	width: 600px;
+	height: 100px;
+	border-radius: 4px;
+	padding-bottom: 20px;
+}
+
+#questionbox{
+	
+}
+
+#messages{
+	height: 300px;
+	overflow: auto;
 }
