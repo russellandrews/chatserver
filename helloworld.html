@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>nowjs test</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script src="/nowjs/now.js"></script>
+<script src="/static/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/static/style.css" />
+
+<script>
+$(document).ready(function(){
+  now.receiveMessage = function(name, group, message){
+    $("#messages").append("<br><span class='" + group + "'>" + name + "</span>: " + message);
+  }
+  
+  $("#send-button").click(function(){
+    now.distributeMessage($("#text-input").val());
+    $("#text-input").val("");
+  });
+  
+  $("#text-input").keypress(function (e) {
+    if (e.which && e.which === 13) {
+      $("#send-button").click();
+      return false;
+    }
+  });
+
+	$(function(){
+		$("#dialogbox").dialog();
+	});
+
+	now.name = "Unknown";
+	now.group = "student";
+
+	$("#submit-button").click(function(){
+    now.name = ($("#name").val());
+		if ($("#mentor").is(':checked')){
+			now.group = "mentor"
+			alert($("#mentor").val());
+		}else{
+			now.group = "student"
+		}
+		$("#dialogbox").dialog("close");
+		return false;
+  });
+
+  $("#text-input").focus();
+});
+</script>
+</head>
+
+<body>
+<div id="messages"></div>
+<input type="text" id="text-input">
+<input type="button" value="Send" id="send-button">
+<div id="dialogbox" title="Mentor or Student?">
+	<form>
+		Your name: <input id="name" type="text" name="name"><br><br>
+		<input id="mentor" type="checkbox" name="group" value="mentor"> I am a mentor.
+		<input id="submit-button" type="submit" value="Submit"> 
+	</form>
+</div>
+</body>
+</html>
