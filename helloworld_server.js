@@ -27,8 +27,12 @@ nowjs.on("connect", function(){
 
 nowjs.on("disconnect", function(){
   console.log("Left: " + this.now.name);
+  everyone.now.receiveSignOff(this.now.name);
 });
 
+everyone.now.sendSignOn = function(onoff, group){
+  everyone.now.receiveSignOn(onoff, this.now.group);
+};
 
 everyone.now.distributeMessage = function(message){
   everyone.now.receiveMessage(this.now.name, this.now.group, message);

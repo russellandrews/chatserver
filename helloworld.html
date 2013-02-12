@@ -11,15 +11,30 @@
 <script>
 $(document).ready(function(){
   now.receiveMessage = function(name, group, message){
-    $("#messages").append("<span id='grouptype' class='" + group + "'>" + name + "</span>: " + message + "<br>");
+    $("#messages").append("<div id='" + group + "'><span class='" + group + "'>" + name + "</span>: " + message + "</div>");
     $("#messages").attr({ scrollTop: $("#messages").attr("scrollHeight") });
+  }
+
+  now.receiveSignOn = function(onoff, group){
+  	if ($("#checkmentor").is(':checked')){
+  		$("#" + group + "sonline").append("<div id='grouponline' style='display:none' class='" + onoff + "'>" + onoff + "</div>");
+  	} else{
+  		$("#" + group + "sonline").append("<div id='grouponline' style='display:none' class='" + onoff + "'>" + onoff + "</div>");
+  	}
+  	$("#grouponline." + onoff).show("fade");
+  	$("#name").val("");
+  }
+
+  now.receiveSignOff = function(name){
+  		$("#grouponline." + name).hide("fade");
   }
   
   $("#send-button").click(function(){
-    now.distributeMessage($("#text-input").val());
-    $("#text-input").val("");
+    	now.distributeMessage($("#text-input").val());
+    	$("#text-input").val("");
   });
   
+  //enter sends message
   $("#text-input").keypress(function (e) {
     if (e.which && e.which === 13) {
       $("#send-button").click();
@@ -27,38 +42,41 @@ $(document).ready(function(){
     }
   });
 
+  	//draws the dialog box
 	$(function(){
-		$("#dialogbox").dialog();
-	});
-
-	$(function(){
-		$("#chat").hide();
+		$("#dialogbox").dialog({ draggable: false },{ resizable: false },{show: "fade"});
 	});
 	
+	//initialize group class as student
 	now.group = "student";
-
-	$("#dialogbox").dialog({show: "fade"});
+	now.name = "Unknown";
 
 	//clicking submit button closes dialog and sets name and group
 	$("#submit-button").click(function(){
-    now.name = ($("#name").val());
+	now.sendSignOn($("#name").val());
+	now.name = ($("#name").val());
 
     	if ($("#name").val() == 0){
+    		//shakes dialogbox if user does not give name
     		$(".ui-dialog").effect( "shake");
     		return false
     	} else{
+    		//fades out dialogbox, fades in chat module
     		$("#dialogbox").dialog({hide: "fade"});
+    		$("#name").val("");
 			$("#dialogbox").dialog("close");
 			$("#chat").show("fade", 1000);
+			$("#text-input").focus();
 
+			//changes color of name depending on if mentor checkbox is checked
 			if ($("#checkmentor").is(':checked')){
 				now.group = "mentor"
 			}else{
 				now.group = "student"
 			}
 			return false;
-		}
-  	});
+			}
+  });
 
 	//hitting enter key submits form
 	$("#dialogbox").keypress(function (e) {
@@ -67,8 +85,6 @@ $(document).ready(function(){
       return false;
     }
   });
-
-  $("#text-input").focus();
 });
 </script>
 </head>
@@ -78,12 +94,24 @@ $(document).ready(function(){
 <div id="content">
 
 <div id="chat">
-	<h1>This is a chat server.</h1>
-	<h2>Ask your questions here.</h2>
-	<div id="messages"></div>
-	<div id="questionbox">
-		<textarea type="text" id="text-input"></textarea><br>	
-		<input type="button" value="Send" id="send-button">
+	<div id="top">
+		<h1>This is a chat server.</h1>
+		<h2>Ask your questions here.</h2>
+	</div>
+	<div id="chatbox">
+		<div id="messages"></div>
+		<div id="questionbox">
+			<textarea type="text" id="text-input"></textarea><br>	
+			<input type="button" value="Send" id="send-button">
+		</div>
+	</div>
+	<div id="whosonline">
+		<div id="mentorsonline">
+			<div id="mentorheading">Mentors</div>
+		</div><br>
+		<div id="studentsonline">
+			<div id="studentheading">Students</div>
+		</div>
 	</div>
 </div>
 
